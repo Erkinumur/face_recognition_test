@@ -71,7 +71,7 @@ async def input_image(message: Message, state: FSMContext):
     file = open(path, 'rb')
     data = await state.get_data()
     files = {'file': (file.name, file, 'image/jpeg')}
-    response = requests.post('http://127.0.0.1:8000/api/profile/create/',
+    response = requests.post('http://0.0.0.0:8000/api/profile/create/',
                              data=data, files=files)
     await state.reset_state()
     if response.status_code == 201:
@@ -95,11 +95,12 @@ async def input_image(message: Message, state: FSMContext):
     await image.download(path)
     file = open(path, 'rb')
     files = {'file': (file.name, file, 'image/jpeg')}
-    response = requests.post('http://127.0.0.1:8000/api/image/compare/',
+    response = requests.post('http://0.0.0.0:8000/api/image/compare/',
                              files=files)
-    print(response.json())
-    photo = open(response.json().get('file')[1:], 'rb')
-    await message.answer_photo(photo)
+    if response.status_code == 200:
+        print(response.json())
+        photo = open(response.json().get('file')[20:], 'rb')
+        await message.answer_photo(photo)
     await state.reset_state()
 
     os.remove(path)

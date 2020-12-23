@@ -18,6 +18,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
 
 class ImageCompareAPIView(views.APIView):
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = ImageSerializer(data=request.data, context={'request':
                                                                      request})
         serializer.is_valid(raise_exception=True)
