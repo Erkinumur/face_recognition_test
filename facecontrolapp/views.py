@@ -24,12 +24,17 @@ class ImageCompareAPIView(views.APIView):
         serializer.is_valid(raise_exception=True)
         image = serializer.validated_data.get('file')
         unknown_face = get_face_encoding(image)
-        queryset = Image.objects.all()
-        result: Image = face_compare(unknown_face, queryset)
-        if result:
-            img_serializer = ImageSerializer(
-                result,
-                context={'request': request})
-            data = img_serializer.data
-            return Response(data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+            unknown_face[0]
+        except:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            queryset = Image.objects.all()
+            result: Image = face_compare(unknown_face, queryset)
+            if result:
+                img_serializer = ImageSerializer(
+                    result,
+                    context={'request': request})
+                data = img_serializer.data
+                return Response(data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_204_NO_CONTENT)
