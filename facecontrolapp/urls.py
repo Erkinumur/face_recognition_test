@@ -1,8 +1,7 @@
 from django.urls import path
 
-from facecontrolapp.views import ProfileCreateAPIView, ImageCompareAPIView
+from facecontrolapp.views import ImageCompareAPIView
 
 urlpatterns = [
-    path('profile/create/', ProfileCreateAPIView.as_view()),
     path('image/compare/', ImageCompareAPIView.as_view())
 ]

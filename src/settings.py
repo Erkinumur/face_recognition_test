@@ -25,7 +25,7 @@ SECRET_KEY = '&#-!tc7^ke^_=4)r_#h72@-nun@6v52+rc@6dxfwu8mzq9yhi#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.88.179', '0.0.0.0']
+ALLOWED_HOSTS = ['192.168.88.167', '0.0.0.0', '127.0.0.1']
 
 
 # Application definition
@@ -38,8 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'djoser',
+    'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
+
     'facecontrolapp',
+    'timecontrol',
 ]
 
 MIDDLEWARE = [
@@ -102,6 +107,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'src.renderers.UTF8CharsetJSONRenderer',
+    ),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
