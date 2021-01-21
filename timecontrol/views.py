@@ -48,6 +48,10 @@ class ProfileCreateAPIView(generics.CreateAPIView):
     serializer_class = ProfileCreateSerializer
     permission_classes = []
 
+    # def create(self, request, *args, **kwargs):
+    #     print('qwe')
+    #     return super().create(request, *args, **kwargs)
+
     # def perform_create(self, serializer):
     #     if not self.request.user.is_anonymous:
     #         company = self.request.user.profile.company

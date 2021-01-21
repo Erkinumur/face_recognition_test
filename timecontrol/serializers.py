@@ -46,25 +46,28 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
-    user = UserCreateSerializer()
+    username = serializers.CharField(max_length=255, source='user.username')
+    password = serializers.CharField(max_length=255, source='user.password')
+    first_name = serializers.CharField(max_length=255, source='user.first_name')
+    last_name = serializers.CharField(max_length=255, source='user.last_name')
     company = serializers.SlugRelatedField(slug_field='name',
                                            queryset=Company.objects.all())
     file = serializers.ImageField(source='image.file')
 
     class Meta:
         model = Profile
-        fields = ['user', 'company', 'position', 'file']
+        fields = ['username', 'password', 'first_name', 'last_name', 'company', 'position', 'file']
 
     def create(self, validated_data):
         print(validated_data)
         user = validated_data.pop('user')
         image = validated_data.pop('image').get('file')
+        encoding = get_face_encoding_string(image)
         password = user.pop('password')
         user = User(**user)
         user.set_password(password)
         user.save()
         profile = Profile.objects.create(user=user, **validated_data)
-        encoding = get_face_encoding_string(image)
         Image.objects.create(file=image, encoding=encoding,
                              profile=profile)
         return profile
