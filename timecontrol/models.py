@@ -35,7 +35,7 @@ class TimeControl(models.Model):
 
 
 class Image(models.Model):
-    file = models.ImageField(verbose_name='Фото')
+    file = models.ImageField(verbose_name='Фото', upload_to='photos')
     encoding = models.TextField(max_length=5000)
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE,
                                 related_name='image')

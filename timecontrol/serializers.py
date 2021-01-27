@@ -51,25 +51,36 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(max_length=255, source='user.first_name')
     last_name = serializers.CharField(max_length=255, source='user.last_name')
     company = serializers.SlugRelatedField(slug_field='name',
-                                           queryset=Company.objects.all())
+                                           queryset=Company.objects.all(),
+                                           required=False)
     file = serializers.ImageField(source='image.file')
 
     class Meta:
         model = Profile
-        fields = ['username', 'password', 'first_name', 'last_name', 'company', 'position', 'file']
+        fields = ['username', 'password', 'first_name', 'last_name', 'company',
+                  'position', 'file']
+
+    def validate_file(self, value):
+        try:
+            encoding = get_face_encoding_string(value)
+        except:
+            raise serializers.ValidationError("Face doesn't found")
+        return Image(file=value, encoding=encoding)
 
     def create(self, validated_data):
         print(validated_data)
         user = validated_data.pop('user')
         image = validated_data.pop('image').get('file')
-        encoding = get_face_encoding_string(image)
+        # encoding = get_face_encoding_string(image)
         password = user.pop('password')
         user = User(**user)
         user.set_password(password)
         user.save()
         profile = Profile.objects.create(user=user, **validated_data)
-        Image.objects.create(file=image, encoding=encoding,
-                             profile=profile)
+        # Image.objects.create(file=image, encoding=encoding,
+        #                      profile=profile)
+        image.profile = profile
+        image.save()
         return profile
 
 
