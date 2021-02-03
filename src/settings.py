@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '&#-!tc7^ke^_=4)r_#h72@-nun@6v52+rc@6dxfwu8mzq9yhi#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.88.167', '0.0.0.0', '127.0.0.1', '192.168.88.233']
+ALLOWED_HOSTS = ['188.225.73.135', '127.0.0.1']
 
 
 # Application definition
@@ -83,8 +83,13 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'facecontrol_db',
+        'USER' : 'facecontrol',
+        'PASSWORD' : 'testpa$$word',
+        'HOST' : '127.0.0.1',
+        'PORT' : '5432'
+        
     }
 }
 
@@ -141,6 +146,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATICFILES_FINDERS = (
+'django.contrib.staticfiles.finders.FileSystemFinder',
+'django.contrib.staticfiles.finders.AppDirectoriesFinder'
+)
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
