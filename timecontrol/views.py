@@ -49,7 +49,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
 
     # def create(self, request, *args, **kwargs):
-    #     print('qwe')
+    #     print(f'request: {request.data}')
     #     return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -73,7 +73,8 @@ class ProfileListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         company = self.request.user.profile.company
-        queryset = Profile.objects.filter(company=company)
+        queryset = Profile.objects.filter(company=company).exclude(
+            position='Owner')
         return queryset
 
 

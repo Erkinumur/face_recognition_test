@@ -25,7 +25,7 @@ SECRET_KEY = '&#-!tc7^ke^_=4)r_#h72@-nun@6v52+rc@6dxfwu8mzq9yhi#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['188.225.73.135', '127.0.0.1']
+ALLOWED_HOSTS = ['188.225.73.135', '127.0.0.1', '192.168.88.85']
 
 
 # Application definition
@@ -82,14 +82,18 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'facecontrol_db',
+    #     'USER' : 'facecontrol',
+    #     'PASSWORD' : 'testpa$$word',
+    #     'HOST' : '127.0.0.1',
+    #     'PORT' : '5432'
+    #
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'facecontrol_db',
-        'USER' : 'facecontrol',
-        'PASSWORD' : 'testpa$$word',
-        'HOST' : '127.0.0.1',
-        'PORT' : '5432'
-        
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
